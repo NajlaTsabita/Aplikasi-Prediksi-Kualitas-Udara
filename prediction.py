@@ -10,7 +10,14 @@ def train_regression_model(df):
     X = df[features]
     y_reg = df["PM2.5"]
     X_train, _, y_train, _ = train_test_split(X, y_reg, test_size=0.2, random_state=42)
-    rf_reg = RandomForestRegressor(n_estimators=200, max_depth=10, random_state=42)
+    rf_reg = RandomForestRegressor(
+        n_estimators=300,
+        max_depth=None,
+        min_samples_split=10,
+        min_samples_leaf=5,
+        max_features="sqrt",
+        random_state=42
+    )
     rf_reg.fit(X_train, y_train)
     return rf_reg
 
@@ -29,7 +36,14 @@ def train_classification_model(df):
             return "Berbahaya"
     y_cls = df["PM2.5"].apply(air_quality_label_data)
     X_train, _, y_train, _ = train_test_split(X, y_cls, test_size=0.2, random_state=42, stratify=y_cls)
-    rf_cls = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+    rf_cls = RandomForestClassifier(
+        n_estimators=300,
+        max_depth=None,
+        min_samples_split=10,
+        min_samples_leaf=5,
+        max_features="sqrt",
+        random_state=42
+    )
     rf_cls.fit(X_train, y_train)
     return rf_cls
 
